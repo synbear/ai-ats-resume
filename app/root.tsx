@@ -28,16 +28,17 @@ export const links: Route.LinksFunction = () => [
 export function Layout({ children }: { children: React.ReactNode }) {
   const { init } = usePuterStore();
 
-  useEffect(() => {
-    init()
-  }, [init]);
+  // We don't want to init puter immediately to avoid the splash screen
+  // useEffect(() => {
+  //   init()
+  // }, [init]);
 
   return (
     <html lang="en">
       <head>
         <meta charSet="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
-        <meta name="robots" content="nofollow"/>
+        <meta name="robots" content="nofollow" />
         <Meta />
         <Links />
       </head>

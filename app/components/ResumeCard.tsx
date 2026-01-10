@@ -9,6 +9,14 @@ const ResumeCard = ({ resume: { id, companyName, jobTitle, feedback, imagePath }
 
   useEffect(() => {
     const loadResume = async () => {
+      // Handle static sample images
+      if (imagePath.startsWith('/images/')) {
+        setResumeUrl(imagePath);
+        return;
+      }
+
+      // Handle user uploaded images (only if authenticated)
+      // We don't want to try reading from FS if we are guest (though we shouldn't have non-static paths in guest mode anyway)
       const blob = await fs.read(imagePath);
       if (!blob) return;
       let url = URL.createObjectURL(blob);
