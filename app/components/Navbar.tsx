@@ -1,16 +1,30 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { Link } from 'react-router'
+import WipeResumesModal from './WipeResumesModal';
 
 const Navbar = () => {
+  const [isWipeModalOpen, setIsWipeModalOpen] = useState(false);
+
   return (
-    <nav className='navbar'>
+    <>
+      <nav className='navbar'>
         <Link to="/">
-            <p className='text-2xl font-bold text-gradient'>synAI</p>
+          <p className='text-2xl font-bold text-gradient'>synAI</p>
         </Link>
-        <Link to='/upload' className='primary-buton w-fit'>
+        <div className='flex gap-4 items-center'>
+          <button
+            onClick={() => setIsWipeModalOpen(true)}
+            className='text-gray-500 hover:text-red-600 font-medium text-sm transition-colors cursor-pointer'
+          >
+            Wipe Data
+          </button>
+          <Link to='/upload' className='primary-button w-fit'>
             Upload Resume
-        </Link>
-    </nav>
+          </Link>
+        </div>
+      </nav>
+      <WipeResumesModal isOpen={isWipeModalOpen} onClose={() => setIsWipeModalOpen(false)} />
+    </>
   )
 }
 
