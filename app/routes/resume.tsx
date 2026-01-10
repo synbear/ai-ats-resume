@@ -4,6 +4,7 @@ import Ats from '~/components/ATS'
 import Details from '~/components/Details'
 import Summary from '~/components/Summary'
 import { usePuterStore } from '~/lib/puter'
+import { resumes as sampleResumes } from "~/constants";
 
 export const meta = () => ([
     { title: 'synAI | Review' },
@@ -19,11 +20,21 @@ const Resume = () => {
     const navigate = useNavigate();
 
     useEffect(() => {
-        if (!isLoading && !auth.isAuthenticated) navigate(`/auth?next=/resume${id}`);
-    }, [isLoading])
+        const isSample = sampleResumes.some((r: Resume) => r.id === id);
+        if (!isLoading && !auth.isAuthenticated && !isSample) navigate(`/auth?next=/resume/${id}`);
+    }, [isLoading, auth.isAuthenticated, id])
 
     useEffect(() => {
         const loadResume = async () => {
+            // Check if it's a sample resume
+            const sample = sampleResumes.find((r: Resume) => r.id === id);
+            if (sample) {
+                setResumeUrl(sample.resumePath);
+                setImageUrl(sample.imagePath);
+                setFeedback(sample.feedback);
+                return;
+            }
+
             const resume = await kv.get(`resume:${id}`);
 
             if (!resume) return;
@@ -66,7 +77,7 @@ const Resume = () => {
                 </Link>
             </nav>
             <div className='flex flex-row w-full max-lg:flex-col-reverse'>
-                <section className="feedback-section bg-[url('/images/bg-small.svg')] bg-cover h-[100vh] sticky top-0 items-center justify-center">
+                <section className="feedback-section bg-[url('/images/bg-small.svg')] bg-cover max-lg:h-auto max-lg:relative lg:h-[100vh] lg:sticky top-0 items-center justify-center">
                     {imageUrl && resumeUrl && (
                         <div className='animate-in fade-in duration-1000 gradient-border max-sm:m-0 h-[90%] max-wxl:h-fit w-fit'>
                             <a href={resumeUrl} target='_blank' rel='noopener noreferrer'>

@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react'
-import { useLocation, useNavigate } from 'react-router';
+import { Link, useLocation, useNavigate } from 'react-router';
 import { usePuterStore } from '~/lib/puter'
 
 export const meta = () => ([
@@ -27,6 +27,9 @@ const Auth = () => {
       <div className='gradient-border shadow-lg'>
         <section className='flex flex-col gap-8 bg-white rounded-2xl p-10'>
           <div className='flex flex-col items-center gap-2 text-center'>
+            <Link to='/' className='text-3xl font-bold text-gradient hover:opacity-80 transition-opacity mb-4'>
+              synAI
+            </Link>
             <h1>Welcome</h1>
             <h2>Log In To Continue Your Job Journey</h2>
           </div>
